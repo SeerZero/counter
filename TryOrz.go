@@ -11,6 +11,7 @@ import (
 
 
 func main() {
+
 	inputFile, inputError := os.Open("millionRandom.txt")
 	if inputError != nil {
 		fmt.Printf("An error occurred on opening the inputfile\n")
@@ -19,6 +20,7 @@ func main() {
 	defer inputFile.Close()
 
 	inputReader := bufio.NewReader(inputFile)
+
 	m:=make(map[string]int64)
 	for {
 		s,error:=inputReader.ReadString('\n')
@@ -27,21 +29,17 @@ func main() {
 		}
 		m[s]++
 	}
-
-
-	outputFile, outputError := os.OpenFile("counter.txt", os.O_WRONLY|os.O_CREATE, 0666)
+	outputFile, outputError := os.OpenFile("counter.txt",  os.O_WRONLY|os.O_CREATE, 0666)
 	if outputError != nil {
 		fmt.Printf("File open failed.")
 	}
 	defer outputFile.Close()
-
 	outputWriter := bufio.NewWriter(outputFile)
-
-	for i:=range m {//i 本身带了个回车Orz
-		str:=i
-		str=strings.Replace(str,"\n","",-1)
-		num:= strconv.FormatInt(m[i], 10)
-		outputWriter.WriteString(str+"   "+ num+"\n")
-	}
-
+	for k,i:=range m {
+		k=strings.Replace(k,"\n","",-1)
+		z:= strconv.FormatInt(i, 10)
+		outputWriter.WriteString(k+"   "+ z+"\n")
+		}
+	outputWriter.Flush()
 }
+
